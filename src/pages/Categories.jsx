@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import CategoryCreate from "../components/categories/CategoryCreate";
 import CategoryEdit from "../components/categories/CategotyEdit";
 
-export default function Categories() {
+export default function Categories( ) {
   const [modalShow, setModalShow] = useState(false);
   const [categories, setCategories] = useState([]);
   const [modalContent, setModalContent] = useState(<></>);
