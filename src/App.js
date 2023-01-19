@@ -4,7 +4,6 @@ import Navbar from "./components/Navbar";
 import DynamicModal from "./components/utils/DynamicModal";
 import { useEffect, useState } from "react";
 import PostCreate from "./components/Blogs/PostCreate";
-
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Articles from "./pages/Articles";
@@ -13,10 +12,11 @@ import SignInError from "./pages/SignInError";
 import Singup from "./pages/Singup";
 import SigninSuccess from "./pages/SigninSuccess";
 import SignOut from "./pages/SignOut";
+import { ToastContainer } from "react-toastify";
+import Categories from "./pages/Categories";
 
 export default function App() {
   const [me, setMe] = useState(undefined);
-
   const [show, setShow] = useState(false);
   const [menuShow, setMenuShow] = useState(false);
 
@@ -55,10 +55,13 @@ export default function App() {
               path="/articles"
               element={<Articles handleShow={handleShow} />}
             />
+            <Route path="/categories" element={<Categories />} />
             <Route path="/signout" element={<SignOut setMe={setMe} />} />
           </Routes>
         </div>
       </div>
+
+      <ToastContainer />
 
       <DynamicModal
         show={show}

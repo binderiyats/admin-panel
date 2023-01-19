@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import CategoryCreate from "../components/categories/CategoryCreate";
 import CategoryEdit from "../components/categories/CategotyEdit";
+import Heading from "../components/Heading";
+import DynamicModal from "../components/utils/DynamicModal";
+import CategoryList from "../components/categories/CategoriesList";
 
-export default function Categories( ) {
+export default function Categories() {
   const [modalShow, setModalShow] = useState(false);
   const [categories, setCategories] = useState([]);
   const [modalContent, setModalContent] = useState(<></>);
@@ -33,7 +36,7 @@ export default function Categories( ) {
     setModalShow(true);
   };
 
-  const afterEdit = () => {
+  const afterEdit = (category) => {
     modalClose();
     let newCategories = categories.map((cat) => {
       if (cat.id === category.id) {
