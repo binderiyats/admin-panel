@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Button } from "react-bootstrap";
-import { Form, useNavigate } from "react-router-dom";
+import { Button, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function CategoryEdit({ afterEdit, category }) {

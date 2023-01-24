@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { SlPencil, SlTrash } from "react-icons/sl";
 import { useNavigate } from "react-router-dom";
@@ -9,33 +10,48 @@ const ListItems = ({ item, index, onEdit }) => {
 
   const deleteItem = () => {
     let statusCode;
-    fetch("https://demo-api-one.vercel.app/api/categories", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token"),
-      },
-      body: JSON.stringify({ id: item.id }),
-    })
-      .then((res) => {
-        statusCode = res.status;
-        return res.json();
+    axios
+      .delete("https://demo-api-one.vercel.app/api/categories", {
+        d: item.id,
       })
-      .then((data) => {
-        if (statusCode === 200) {
-          toast.success("Амжилттай устгалаа");
-          setDeleted(true);
-        } else {
-          if (statusCode === 403 || statusCode === 401) {
-            navigate("/signout");
-          }
-          toast.error(data.message);
-        }
+      .then((res) => {
+        toast.success("Амжилттай устгалаа");
+        setDeleted(true);
       })
       .catch((err) => {
-        console.log(err);
-        toast.error("Алдаа гарлаа");
+        if (err.response.status === 401 || err.response.status === 403) {
+          navigate("/signout");
+        }
+        toast.error(err.response.data.message);
       });
+
+    // fetch("https://demo-api-one.vercel.app/api/categories", {
+    //   method: "DELETE",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: localStorage.getItem("token"),
+    //   },
+    //   body: JSON.stringify({ id: item.id }),
+    // })
+    //   .then((res) => {
+    //     statusCode = res.status;
+    //     return res.json();
+    //   })
+    //   .then((data) => {
+    //     if (statusCode === 200) {
+    //       toast.success("Амжилттай устгалаа");
+    //       setDeleted(true);
+    //     } else {
+    //       if (statusCode === 403 || statusCode === 401) {
+    //         navigate("/signout");
+    //       }
+    //       toast.error(data.message);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     toast.error("Алдаа гарлаа");
+    //   });
   };
   if (deleted) return <></>;
 

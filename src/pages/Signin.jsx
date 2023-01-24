@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import { Link, useNavigate } from "react-router-dom";
 import { TOAST_CONFIG } from "../components/utils/config";
 import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
 
 export default function Signin() {
   const [email, setEmail] = useState("");
@@ -12,26 +13,41 @@ export default function Signin() {
 
   const submitSingIn = () => {
     let status = 200;
-    fetch("https://demo-api-one.vercel.app/api/signin", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (status !== 200) {
-          toast.error(data.message, TOAST_CONFIG);
-        } else {
-          toast.success(data.message, TOAST_CONFIG);
-          localStorage.setItem("token", data.body);
-          navigate("/signin/success");
-        }
+    axios
+      .post("https://demo-api-one.vercel.app/api/signin", {
+        email,
+        password,
       })
-      .catch((err) => {
-        console.log(err);
+      .then((res) => {
+        toast.success(res.data.message, TOAST_CONFIG);
+        localStorage.setItem("token", res.data.body);
+        navigate("/signin/success");
+      })
+      .catch((e) => {
+        const errorMsg = e.response.data.message || "aldaa";
+        toast.error(errorMsg, TOAST_CONFIG);
       });
+
+    // fetch("https://demo-api-one.vercel.app/api/signin", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({ email, password }),
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     if (status !== 200) {
+    //       toast.error(data.message, TOAST_CONFIG);
+    //     } else {
+    //       toast.success(data.message, TOAST_CONFIG);
+    //       localStorage.setItem("token", data.body);
+    //       navigate("/signin/success");
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 
   return (

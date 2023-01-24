@@ -5,6 +5,7 @@ import CategoryEdit from "../components/categories/CategotyEdit";
 import Heading from "../components/Heading";
 import DynamicModal from "../components/utils/DynamicModal";
 import CategoryList from "../components/categories/CategoriesList";
+import axios from "axios";
 
 export default function Categories() {
   const [modalShow, setModalShow] = useState(false);
@@ -12,15 +13,25 @@ export default function Categories() {
   const [modalContent, setModalContent] = useState(<></>);
 
   useEffect(() => {
-    fetch("https://demo-api-one.vercel.app/api/categories")
-      .then((res) => res.json())
-      .then((data) => {
-        setCategories(data.body);
+    axios
+      .get("https://demo-api-one.vercel.app/api/categories")
+      .then((res) => {
+        setCategories(res.data.body);
       })
       .catch((err) => {
         console.log(err);
         toast.error("Алдаа гарлаа");
       });
+
+    // fetch("https://demo-api-one.vercel.app/api/categories")
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setCategories(data.body);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     toast.error("Алдаа гарлаа");
+    //   });
   }, []);
 
   const modalClose = () => {
@@ -60,6 +71,7 @@ export default function Categories() {
       </div>
       <DynamicModal
         content={modalContent}
+        handleClose={modalClose}
         show={modalShow}
         title="Create category"
       />
