@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -9,29 +10,14 @@ export default function CategoryEdit({ afterEdit, category }) {
   const navigate = useNavigate();
 
   const submit = () => {
-    let statusCode;
-    fetch("https://demo-api-one.vercel.app/categories", {
-      method: "Patch",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token"),
-      },
-      body: JSON.stringify({ id: category?.id, name, description }),
-    })
-      .then((res) => {
-        statusCode = res.status;
-        return res.json();
+    axios
+      .patch(`http://localhost:8000/categoriesArticle/${category.id}`, {
+        name,
+        description,
       })
-      .then((data) => {
-        if (statusCode === 200) {
-          toast.success("Амжилттай нэмэгдлээ");
-          afterEdit(data.body);
-        } else {
-          if (statusCode === 403 || statusCode === 401) {
-            navigate("/signout");
-          }
-          toast.error(data.message);
-        }
+      .then((res) => {
+        toast.success("Амжилттай нэмэгдлээ");
+        afterEdit(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -60,7 +46,7 @@ export default function CategoryEdit({ afterEdit, category }) {
       <Form.Group className="mb-3">
         <Form.Label>Description</Form.Label>
         <Form.Control
-          value={name}
+          value={description}
           onChange={(e) => {
             setDescription(e.target.value);
           }}

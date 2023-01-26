@@ -14,9 +14,9 @@ export default function Categories() {
 
   useEffect(() => {
     axios
-      .get("https://demo-api-one.vercel.app/api/categories")
+      .get("http://localhost:8000/categories")
       .then((res) => {
-        setCategories(res.data.body);
+        setCategories(res.data);
       })
       .catch((err) => {
         console.log(err);
