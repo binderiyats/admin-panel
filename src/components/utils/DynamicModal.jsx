@@ -1,4 +1,4 @@
-import Modal from 'react-bootstrap/Modal';
+import Modal from "react-bootstrap/Modal";
 
 export default function DynamicModal({ show, handleClose, title, content }) {
   return (

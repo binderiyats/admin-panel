@@ -22,16 +22,6 @@ export default function Categories() {
         console.log(err);
         toast.error("Алдаа гарлаа");
       });
-
-    // fetch("https://demo-api-one.vercel.app/api/categories")
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     setCategories(data.body);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     toast.error("Алдаа гарлаа");
-    //   });
   }, []);
 
   const modalClose = () => {
